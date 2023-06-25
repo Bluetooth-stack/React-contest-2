@@ -57,7 +57,7 @@ const Login = () => {
                 <h1>Login</h1>
                 <div className="box">
                     <input type="text" name="username" id="username" required onChange={(e) => { setName(e.target.value) }} />
-                    <span>Username / Email</span>
+                    <span>Username</span>
                 </div>
 
                 <div className="box">
