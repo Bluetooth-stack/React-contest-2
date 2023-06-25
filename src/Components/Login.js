@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-// import userContext from "../context/userContext";
 
 const Login = () => {
 
@@ -11,8 +10,6 @@ const Login = () => {
     let [success, setSuccess] = useState('');
 
     const navigate = useNavigate();
-
-    // const {user, setUser} = useContext(userContext)
 
     async function loginHandle(e) {
         e.preventDefault();
@@ -25,11 +22,24 @@ const Login = () => {
                     password: pass,
                 })
             })
-            setError('')
-            setSuccess('Logged in successfully!')
+            if(response.message){
+                setSuccess('');
+                setError(response.message);
+                return;
+            }
+            setSuccess('Logged in successfully!');
             console.log(response);
+            setError('');
+            setName('');
+            setPass('');
+
             localStorage.setItem('user',JSON.stringify(response.data));
-            // setUser(response.data);
+            
+            const data = await axios.get(`https://dummyjson.com/users/${response.data.id}`);
+            console.log(data.data);
+
+            localStorage.setItem('userinfo', JSON.stringify(data.data));
+
             setTimeout(()=>{
                 navigate('/profile')
             }, 1000)
